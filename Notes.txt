@@ -1,0 +1,6 @@
+# NumPy: Used for Mathematical Operations
+# Pandas: Reading the data, Data Cleaning, Data manipulations
+# Matplotlib: Basic Data visualisation
+# Seaborn: Advanced Data visualisation
+# Beautiful Soup: 
+# Selenium: 
