@@ -1,6 +1,37 @@
+https://drive.google.com/drive/u/0/mobile/folders/1puyGZ9f2Qs-ZgVErpWvaJpPrXtw07OuW?usp=sharing
+
 # NumPy: Used for Mathematical Operations
 # Pandas: Reading the data, Data Cleaning, Data manipulations
 # Matplotlib: Basic Data visualisation
 # Seaborn: Advanced Data visualisation
-# Beautiful Soup: 
+# yfinance: webscraping financial stocks data 
+# Beautiful Soup: webscraping
 # Selenium: 
+# Schikit learn: Machine Learning 
+
+Machine Learning -->        Data Analyst 
+                                |
+                          ---------------      Machine / Algorithm
+                          |             |     /
+                    Descriptive     Predictive
+                      Analysis       Analysis
+                          |               |
+           (SQL, Python, Excel)     Historical Data
+                                            |
+                                          Learn
+                                              |
+                                            New Data
+
+Machine Learning: It is a subset of Ai, which deals with vast amount of historical data, and make the machine/ Algorithm to learn
+                  hidden or complex patterns and use that learning to predict for the new data.
+
+Types of Ml: 
+  1. Supervised Learning: where we provide every possible data labels
+                          --- Linear Regression
+                          --- Logistic Regression
+  2. Unsupervised Learning       
+  3. Reinforcement Learning  ----|--- Neural Networking
+                                 |--- Deep Learning ---- Gen Ai
+                          
+
+
