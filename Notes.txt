@@ -35,3 +35,17 @@ Types of Ml:
                           
 
 
+--------------------UNDERSTANDING HTML AND DOM STRUCTURE & XPATH-----------------------------------
+
+
+<html> Root element wrappuing entire document
+<head> metadata, title, scripts, styles
+<body> visible content users Seee
+<div> 
+<table> structured tables
+<a> hyperreferences tags
+
+
+
+Web Scraping tools for data extraction
+Q - 
