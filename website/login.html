@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Groww</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-split">
+            <div class="login-left">
+                <div class="login-left-content">
+                    <div class="logo-large">
+                        <svg class="logo-icon" viewBox="0 0 60 60" width="60" height="60">
+                            <circle cx="30" cy="30" r="28" fill="#00d09c" opacity="0.2"/>
+                            <path d="M30 10 L30 50 M15 30 L45 30" stroke="#00d09c" stroke-width="4" stroke-linecap="round"/>
+                            <circle cx="30" cy="30" r="6" fill="#00d09c"/>
+                        </svg>
+                    </div>
+                    <h2>Start your investment journey with Groww</h2>
+                    <div class="login-features">
+                        <div class="login-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Zero commission on stocks</span>
+                        </div>
+                        <div class="login-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Free mutual fund investments</span>
+                        </div>
+                        <div class="login-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Trusted by 3 Cr+ investors</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="login-right">
+                <div class="login-box">
+                    <div class="login-header">
+                        <h2>Welcome to Groww</h2>
+                        <p>Login to start investing</p>
+                    </div>
+                    
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="email">Email or Phone</label>
+                            <input type="text" id="email" name="email" required placeholder="Enter your email or phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="remember">
+                                <span>Keep me logged in</span>
+                            </label>
+                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary full-width">Continue</button>
+                        
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <button type="button" class="btn-social google">
+                            <span class="social-icon">G</span>
+                            Continue with Google
+                        </button>
+                        
+                        <div class="demo-credentials">
+                            <p><strong>Demo Login:</strong></p>
+                            <p>Email: demo@groww.in | Password: demo123</p>
+                        </div>
+                    </form>
+                    
+                    <div class="login-footer">
+                        <p>New to Groww? <a href="#" class="signup-link">Create an account</a></p>
+                        <a href="index.html" class="back-home">← Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

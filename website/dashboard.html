@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Groww</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" width="40" height="40">
+                    <circle cx="20" cy="20" r="18" fill="#00d09c" opacity="0.2"/>
+                    <path d="M20 8 L20 32 M12 20 L28 20" stroke="#00d09c" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="20" cy="20" r="4" fill="#00d09c"/>
+                </svg>
+                <span class="logo-text">Groww</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="overview">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="portfolio">
+                    <span class="nav-icon">💼</span>
+                    <span>Portfolio</span>
+                </a>
+                <a href="#" class="nav-item" data-page="stocks">
+                    <span class="nav-icon">📈</span>
+                    <span>Stocks</span>
+                </a>
+                <a href="#" class="nav-item" data-page="mutualfunds">
+                    <span class="nav-icon">🎯</span>
+                    <span>Mutual Funds</span>
+                </a>
+                <a href="#" class="nav-item" data-page="watchlist">
+                    <span class="nav-icon">⭐</span>
+                    <span>Watchlist</span>
+                </a>
+                <a href="#" class="nav-item" data-page="orders">
+                    <span class="nav-icon">📝</span>
+                    <span>Orders</span>
+                </a>
+                <a href="#" class="nav-item" data-page="profile">
+                    <span class="nav-icon">👤</span>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="index.html" class="nav-item logout">
+                    <span class="nav-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <div class="header-search">
+                        <input type="search" id="stock-search-input" placeholder="Search for stocks..." class="search-box" autocomplete="off">
+                        <div id="search-results" class="search-results"></div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-add-funds">+ Add Funds</button>
+                    <div class="user-info">
+                        <span class="user-name">Investor</span>
+                        <div class="user-avatar">IN</div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="content-area" class="content-area">
+                <!-- Dashboard Overview Section -->
+                <div id="overview-section" class="content-section active">
+                    <!-- Portfolio Summary with Chart -->
+                    <div class="portfolio-summary-enhanced">
+                        <div class="summary-header">
+                            <div>
+                                <h2>Portfolio Overview</h2>
+                                <p class="summary-subtitle">Your complete investment snapshot</p>
+                            </div>
+                            <div class="summary-period-selector">
+                                <button class="period-btn active" data-period="1d">1D</button>
+                                <button class="period-btn" data-period="1w">1W</button>
+                                <button class="period-btn" data-period="1mo">1M</button>
+                                <button class="period-btn" data-period="3mo">3M</button>
+                                <button class="period-btn" data-period="1y">1Y</button>
+                            </div>
+                        </div>
+                        
+                        <div class="portfolio-chart-container">
+                            <div class="portfolio-stats-inline">
+                                <div class="stat-card-large">
+                                    <div class="stat-label">Total Value</div>
+                                    <div class="stat-value-large" id="portfolio-value">₹2,45,670.50</div>
+                                    <div class="stat-change" id="portfolio-change">
+                                        <span id="total-pnl">+₹12,340.50</span>
+                                        <span id="total-pnl-percent">(+5.28%)</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card-medium">
+                                    <div class="stat-label">Invested</div>
+                                    <div class="stat-value-medium" id="total-invested">₹2,33,330.00</div>
+                                </div>
+                                <div class="stat-card-medium">
+                                    <div class="stat-label">Today's P&L</div>
+                                    <div class="stat-value-medium positive" id="today-pnl">+₹1,245.30</div>
+                                </div>
+                                <div class="stat-card-medium">
+                                    <div class="stat-label">Holdings</div>
+                                    <div class="stat-value-medium" id="holdings-count">4</div>
+                                </div>
+                            </div>
+                            <div class="portfolio-main-chart">
+                                <canvas id="portfolio-overview-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Holdings with Charts -->
+                    <div class="holdings-with-charts">
+                        <div class="section-header">
+                            <h2>Your Holdings</h2>
+                            <a href="#" class="view-all" data-page="portfolio">View All →</a>
+                        </div>
+                        <div class="holdings-grid" id="holdings-grid-overview">
+                            <!-- Holdings will be loaded here with mini charts -->
+                        </div>
+                    </div>
+
+                    <!-- Market Indices with Charts -->
+                    <div class="market-indices-enhanced">
+                        <div class="section-header">
+                            <h2>Market Indices</h2>
+                            <span class="market-status-badge" id="market-status-badge">Market Open</span>
+                        </div>
+                        <div class="indices-grid" id="indices-grid-overview">
+                            <!-- Market indices will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Trending Stocks with Charts -->
+                    <div class="trending-stocks-overview">
+                        <div class="section-header">
+                            <h2>Trending Stocks</h2>
+                            <a href="#" class="view-all" data-page="stocks">Explore All →</a>
+                        </div>
+                        <div class="stocks-grid-overview" id="trending-stocks-overview">
+                            <!-- Trending stocks will be loaded here -->
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-section holdings-section">
+                            <div class="section-header">
+                                <h2>Your Holdings</h2>
+                                <a href="#" class="view-all">View All</a>
+                            </div>
+                            <div class="holdings-list">
+                                <div class="holding-item">
+                                    <div class="holding-info">
+                                        <div class="holding-name">Reliance Industries</div>
+                                        <div class="holding-qty">10 Qty • Avg ₹2,540.00</div>
+                                    </div>
+                                    <div class="holding-values">
+                                        <div class="holding-current">₹26,450.00</div>
+                                        <div class="holding-return positive">+₹1,050.00 (4.13%)</div>
+                                    </div>
+                                </div>
+                                <div class="holding-item">
+                                    <div class="holding-info">
+                                        <div class="holding-name">TCS Ltd</div>
+                                        <div class="holding-qty">5 Qty • Avg ₹3,620.00</div>
+                                    </div>
+                                    <div class="holding-values">
+                                        <div class="holding-current">₹18,900.00</div>
+                                        <div class="holding-return positive">+₹800.00 (4.42%)</div>
+                                    </div>
+                                </div>
+                                <div class="holding-item">
+                                    <div class="holding-info">
+                                        <div class="holding-name">HDFC Bank</div>
+                                        <div class="holding-qty">15 Qty • Avg ₹1,540.00</div>
+                                    </div>
+                                    <div class="holding-values">
+                                        <div class="holding-current">₹23,700.00</div>
+                                        <div class="holding-return positive">+₹600.00 (2.60%)</div>
+                                    </div>
+                                </div>
+                                <div class="holding-item">
+                                    <div class="holding-info">
+                                        <div class="holding-name">Infosys Ltd</div>
+                                        <div class="holding-qty">8 Qty • Avg ₹1,680.00</div>
+                                    </div>
+                                    <div class="holding-values">
+                                        <div class="holding-current">₹13,920.00</div>
+                                        <div class="holding-return positive">+₹480.00 (3.57%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-section watchlist-section">
+                            <div class="section-header">
+                                <h2>Watchlist</h2>
+                                <button class="btn-icon">+</button>
+                            </div>
+                            <div class="watchlist-items">
+                                <div class="watch-item">
+                                    <div class="watch-info">
+                                        <div class="watch-name">Adani Ports</div>
+                                        <div class="watch-exchange">NSE</div>
+                                    </div>
+                                    <div class="watch-values">
+                                        <div class="watch-price">₹865.40</div>
+                                        <div class="watch-change positive">+2.15%</div>
+                                    </div>
+                                </div>
+                                <div class="watch-item">
+                                    <div class="watch-info">
+                                        <div class="watch-name">Asian Paints</div>
+                                        <div class="watch-exchange">NSE</div>
+                                    </div>
+                                    <div class="watch-values">
+                                        <div class="watch-price">₹3,024.50</div>
+                                        <div class="watch-change negative">-0.85%</div>
+                                    </div>
+                                </div>
+                                <div class="watch-item">
+                                    <div class="watch-info">
+                                        <div class="watch-name">Bajaj Finance</div>
+                                        <div class="watch-exchange">NSE</div>
+                                    </div>
+                                    <div class="watch-values">
+                                        <div class="watch-price">₹6,745.20</div>
+                                        <div class="watch-change positive">+1.45%</div>
+                                    </div>
+                                </div>
+                                <div class="watch-item">
+                                    <div class="watch-info">
+                                        <div class="watch-name">ITC Ltd</div>
+                                        <div class="watch-exchange">NSE</div>
+                                    </div>
+                                    <div class="watch-values">
+                                        <div class="watch-price">₹412.30</div>
+                                        <div class="watch-change positive">+0.95%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="market-indices">
+                        <h2>Market Indices</h2>
+                        <div class="indices-grid">
+                            <div class="index-card">
+                                <div class="index-name">NIFTY 50</div>
+                                <div class="index-value">21,456.75</div>
+                                <div class="index-change positive">+145.30 (+0.68%)</div>
+                            </div>
+                            <div class="index-card">
+                                <div class="index-name">SENSEX</div>
+                                <div class="index-value">70,842.30</div>
+                                <div class="index-change positive">+523.45 (+0.74%)</div>
+                            </div>
+                            <div class="index-card">
+                                <div class="index-name">NIFTY BANK</div>
+                                <div class="index-value">45,123.80</div>
+                                <div class="index-change negative">-234.50 (-0.52%)</div>
+                            </div>
+                            <div class="index-card">
+                                <div class="index-name">NIFTY IT</div>
+                                <div class="index-value">32,456.20</div>
+                                <div class="index-change positive">+189.60 (+0.59%)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Section -->
+                <div id="portfolio-section" class="content-section">
+                    <div class="portfolio-tabs">
+                        <button class="tab-btn active">Stocks</button>
+                        <button class="tab-btn">Mutual Funds</button>
+                        <button class="tab-btn">ETFs</button>
+                    </div>
+                    
+                    <div class="portfolio-summary-detail">
+                        <div class="summary-card">
+                            <div class="summary-label">Total Investment</div>
+                            <div class="summary-value">₹2,33,330.00</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Current Value</div>
+                            <div class="summary-value">₹2,45,670.50</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Total Returns</div>
+                            <div class="summary-value positive">₹12,340.50 (+5.28%)</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Today's P&L</div>
+                            <div class="summary-value positive">₹1,245.30 (+0.51%)</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-holdings">
+                        <table class="holdings-table">
+                            <thead>
+                                <tr>
+                                    <th>Stock</th>
+                                    <th>Qty</th>
+                                    <th>Avg Price</th>
+                                    <th>LTP</th>
+                                    <th>Current Value</th>
+                                    <th>P&L</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Reliance Industries</strong><br><small>NSE</small></td>
+                                    <td>10</td>
+                                    <td>₹2,540.00</td>
+                                    <td>₹2,645.00</td>
+                                    <td>₹26,450.00</td>
+                                    <td class="positive">+₹1,050.00<br><small>(+4.13%)</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TCS Ltd</strong><br><small>NSE</small></td>
+                                    <td>5</td>
+                                    <td>₹3,620.00</td>
+                                    <td>₹3,780.00</td>
+                                    <td>₹18,900.00</td>
+                                    <td class="positive">+₹800.00<br><small>(+4.42%)</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>HDFC Bank</strong><br><small>NSE</small></td>
+                                    <td>15</td>
+                                    <td>₹1,540.00</td>
+                                    <td>₹1,580.00</td>
+                                    <td>₹23,700.00</td>
+                                    <td class="positive">+₹600.00<br><small>(+2.60%)</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Infosys Ltd</strong><br><small>NSE</small></td>
+                                    <td>8</td>
+                                    <td>₹1,680.00</td>
+                                    <td>₹1,740.00</td>
+                                    <td>₹13,920.00</td>
+                                    <td class="positive">+₹480.00<br><small>(+3.57%)</small></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Stocks Section -->
+                <div id="stocks-section" class="content-section">
+                    <div class="stocks-header">
+                        <h2>Explore Stocks</h2>
+                        <div class="stock-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Top Gainers</button>
+                            <button class="filter-btn">Top Losers</button>
+                            <button class="filter-btn">Most Active</button>
+                        </div>
+                    </div>
+
+                    <div class="stocks-grid">
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">Reliance Industries</div>
+                                    <div class="stock-code">RELIANCE • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹2,645.00</div>
+                            <div class="stock-change positive">+₹32.50 (+1.24%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">TCS Ltd</div>
+                                    <div class="stock-code">TCS • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹3,780.00</div>
+                            <div class="stock-change positive">+₹45.20 (+1.21%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">HDFC Bank</div>
+                                    <div class="stock-code">HDFCBANK • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹1,580.00</div>
+                            <div class="stock-change negative">-₹12.00 (-0.75%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">Infosys Ltd</div>
+                                    <div class="stock-code">INFY • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹1,740.00</div>
+                            <div class="stock-change positive">+₹28.00 (+1.64%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">ICICI Bank</div>
+                                    <div class="stock-code">ICICIBANK • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹945.50</div>
+                            <div class="stock-change positive">+₹8.50 (+0.91%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+
+                        <div class="stock-card">
+                            <div class="stock-header">
+                                <div>
+                                    <div class="stock-name">Wipro Ltd</div>
+                                    <div class="stock-code">WIPRO • NSE</div>
+                                </div>
+                                <button class="btn-icon">⭐</button>
+                            </div>
+                            <div class="stock-price">₹452.30</div>
+                            <div class="stock-change positive">+₹7.30 (+1.64%)</div>
+                            <button class="btn-trade buy">Buy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mutual Funds Section -->
+                <div id="mutualfunds-section" class="content-section">
+                    <div class="mf-header">
+                        <h2>Mutual Funds</h2>
+                        <input type="search" placeholder="Search mutual funds..." class="search-input-mf">
+                    </div>
+
+                    <div class="mf-categories">
+                        <button class="category-btn active">All</button>
+                        <button class="category-btn">Equity</button>
+                        <button class="category-btn">Debt</button>
+                        <button class="category-btn">Hybrid</button>
+                        <button class="category-btn">Tax Saver</button>
+                    </div>
+
+                    <div class="mf-list">
+                        <div class="mf-card">
+                            <div class="mf-info">
+                                <div class="mf-name">Axis Bluechip Fund</div>
+                                <div class="mf-type">Equity • Large Cap</div>
+                                <div class="mf-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="mf-returns">
+                                <div class="return-item">
+                                    <div class="return-label">1Y Return</div>
+                                    <div class="return-value positive">18.5%</div>
+                                </div>
+                                <div class="return-item">
+                                    <div class="return-label">3Y Return</div>
+                                    <div class="return-value positive">22.3%</div>
+                                </div>
+                            </div>
+                            <button class="btn-invest">Invest Now</button>
+                        </div>
+
+                        <div class="mf-card">
+                            <div class="mf-info">
+                                <div class="mf-name">Mirae Asset Large Cap Fund</div>
+                                <div class="mf-type">Equity • Large Cap</div>
+                                <div class="mf-rating">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="mf-returns">
+                                <div class="return-item">
+                                    <div class="return-label">1Y Return</div>
+                                    <div class="return-value positive">20.2%</div>
+                                </div>
+                                <div class="return-item">
+                                    <div class="return-label">3Y Return</div>
+                                    <div class="return-value positive">24.1%</div>
+                                </div>
+                            </div>
+                            <button class="btn-invest">Invest Now</button>
+                        </div>
+
+                        <div class="mf-card">
+                            <div class="mf-info">
+                                <div class="mf-name">SBI Small Cap Fund</div>
+                                <div class="mf-type">Equity • Small Cap</div>
+                                <div class="mf-rating">⭐⭐⭐⭐</div>
+                            </div>
+                            <div class="mf-returns">
+                                <div class="return-item">
+                                    <div class="return-label">1Y Return</div>
+                                    <div class="return-value positive">25.8%</div>
+                                </div>
+                                <div class="return-item">
+                                    <div class="return-label">3Y Return</div>
+                                    <div class="return-value positive">28.5%</div>
+                                </div>
+                            </div>
+                            <button class="btn-invest">Invest Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watchlist Section -->
+                <div id="watchlist-section" class="content-section">
+                    <div class="watchlist-header">
+                        <h2>My Watchlist</h2>
+                        <button class="btn-primary">+ Add Stock</button>
+                    </div>
+
+                    <div class="watchlist-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Stock</th>
+                                    <th>LTP</th>
+                                    <th>Change</th>
+                                    <th>% Change</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Adani Ports</strong><br><small>ADANIPORTS • NSE</small></td>
+                                    <td>₹865.40</td>
+                                    <td class="positive">+₹18.20</td>
+                                    <td class="positive">+2.15%</td>
+                                    <td><button class="btn-small buy">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Asian Paints</strong><br><small>ASIANPAINT • NSE</small></td>
+                                    <td>₹3,024.50</td>
+                                    <td class="negative">-₹25.90</td>
+                                    <td class="negative">-0.85%</td>
+                                    <td><button class="btn-small buy">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bajaj Finance</strong><br><small>BAJFINANCE • NSE</small></td>
+                                    <td>₹6,745.20</td>
+                                    <td class="positive">+₹96.40</td>
+                                    <td class="positive">+1.45%</td>
+                                    <td><button class="btn-small buy">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ITC Ltd</strong><br><small>ITC • NSE</small></td>
+                                    <td>₹412.30</td>
+                                    <td class="positive">+₹3.90</td>
+                                    <td class="positive">+0.95%</td>
+                                    <td><button class="btn-small buy">Buy</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="orders-section" class="content-section">
+                    <div class="orders-tabs">
+                        <button class="tab-btn active">Executed</button>
+                        <button class="tab-btn">Pending</button>
+                        <button class="tab-btn">Cancelled</button>
+                    </div>
+
+                    <div class="orders-list">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-stock">
+                                    <strong>Reliance Industries</strong>
+                                    <small>NSE</small>
+                                </div>
+                                <span class="order-status executed">Executed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <span class="label">Type:</span>
+                                    <span class="value buy-text">BUY</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Qty:</span>
+                                    <span class="value">10</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Price:</span>
+                                    <span class="value">₹2,540.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Date:</span>
+                                    <span class="value">Feb 8, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-stock">
+                                    <strong>TCS Ltd</strong>
+                                    <small>NSE</small>
+                                </div>
+                                <span class="order-status executed">Executed</span>
+                            </div>
+                            <div class="order-details">
+                                <div class="order-detail">
+                                    <span class="label">Type:</span>
+                                    <span class="value buy-text">BUY</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Qty:</span>
+                                    <span class="value">5</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Price:</span>
+                                    <span class="value">₹3,620.00</span>
+                                </div>
+                                <div class="order-detail">
+                                    <span class="label">Date:</span>
+                                    <span class="value">Feb 6, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profile-section" class="content-section">
+                    <div class="profile-container">
+                        <h2>Profile Settings</h2>
+                        
+                        <div class="profile-section">
+                            <h3>Personal Information</h3>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" class="form-control" value="Investor Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" value="investor@groww.in">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" class="form-control" value="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label>PAN</label>
+                                <input type="text" class="form-control" value="ABCDE1234F">
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3>Bank Details</h3>
+                            <div class="bank-card">
+                                <div class="bank-info">
+                                    <div class="bank-name">HDFC Bank</div>
+                                    <div class="bank-account">Account: ****5678</div>
+                                    <div class="bank-ifsc">IFSC: HDFC0001234</div>
+                                </div>
+                                <button class="btn-secondary">Change</button>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-section">
+                            <h3>Security</h3>
+                            <button class="btn-secondary">Change Password</button>
+                            <button class="btn-secondary">Enable 2FA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/chart.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
